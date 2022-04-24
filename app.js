@@ -13,7 +13,7 @@ const myArray = [1, 2, 3, 4];
 console.log(myArray.myReduce((a, b) => a + b, 0)); 
 */
 
-const contucts = [
+const names = [
   "Alim Hossain",
   "Ayub Islam",
   "Aysha Khatun",
@@ -34,17 +34,17 @@ const contucts = [
   "zakaria",
 ];
 
-const contuctList = (arr) => {
-  arr.reduce((acc, cur) => {
-    const firstLatter = cur.charAt(0).toUpperCase();
-    if (firstLatter in acc) {
-      acc[firstLatter].push(cur);
-    } else {
-      acc[firstLatter] = [cur];
-    }
-    return acc;
-  }, {});
-};
+const nameGroup = names.reduce((acc, cur) => {
+  const firstLetter = cur[0].toUpperCase();
+  if (firstLetter in acc) {
+    acc[firstLetter].push(cur);
+  } else {
+    acc[firstLetter] = [cur];
+  }
+  return acc;
+}, {});
 
-const test = contuctList(contucts);
-console.log(test);
+Object.keys(nameGroup).forEach((key) => {
+  console.log("_______", key, "______");
+  nameGroup[key].forEach((name, index) => console.log(index + 1, "| ", name));
+});
