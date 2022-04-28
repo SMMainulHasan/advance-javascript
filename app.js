@@ -1,33 +1,48 @@
+const debounceInput = document.querySelector("#debounce-input");
+debounceInput.addEventListener("keypress", debounce(callData, 300));
+
+let counter = 1;
+function callData() {
+  console.log("called for data " + counter++);
+}
+
+function debounce(fn, limit) {
+  let timer;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, limit);
+  };
+}
+
 // __________________Throttling___________________________
-
 const targetButton = document.getElementById("throttling-btn");
-const timeApi = "http://worldtimeapi.org/api/timezone/Etc/UTC";
+targetButton.addEventListener("click", throttle(getData, 300));
 
-
-async function apiCall(url) {
-  const data = await axios.get(url);
-  console.log(data);
+let count = 1;
+function getData() {
+  console.log("called for data " + counter++);
 }
-const throttle = (func, limit)=> {
+
+function throttle(fn, limit) {
   let flag = true;
-  return function(){
-    if (flag){
-      func();
-      flag= false;
-      setTimeout(()=> {
-        flag = true
-      }, limit)
+  return function () {
+    const context = this;
+    const args = arguments;
+    if (flag) {
+      fn.apply(context, args);
+      flag = false;
+      setTimeout(() => {
+        flag = true;
+      }, limit);
     }
-  }
+  };
 }
-const currentTime = apiCall(timeApi)
 
-const throttledApiCall = {
-  throttle(currentTime, 1000)
-};
-
-targetButton.addEventListener("click", throttledApiCall);
-/*
+/**
 // ----------Reduce implementation-------------
 Array.prototype.myReduce = function (callback, init) {
   let acc = init;
@@ -42,7 +57,7 @@ const myArray = [1, 2, 3, 4];
 console.log(myArray.myReduce((a, b) => a + b, 0)); 
 */
 
-/* // ---------Turing array into Object--------
+/** // ---------Turing array into Object--------
 const names = [
   "Alim Hossain",
   "Ayub Islam",
